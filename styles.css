@@ -1,205 +1,113 @@
 /* Estilos generales */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f9f3f3;
+    background-color: #f9f1f0; /* Color suave */
     color: #333;
-    text-align: center;
-    padding: 20px;
     margin: 0;
-}
-
-h1 {
-    font-size: 2.5em;
-    color: #d63384;
-    margin-bottom: 15px;
-}
-
-p {
-    font-size: 1.2em;
-    line-height: 1.6;
-    margin-bottom: 20px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
 }
 
 .container {
     max-width: 800px;
-    margin: 0 auto;
+    width: 90%;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.heart {
-    color: #d63384;
-    font-size: 1.5em;
-    animation: beat 1s infinite;
+h1 {
+    color: #e91e63; /* Color rosa */
+    font-size: 2rem;
+    margin-bottom: 20px;
 }
 
-@keyframes beat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
+.intro {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
 }
 
-.flowers {
-    margin-top: 15px;
-}
-
-.flowers img {
-    width: 80px;
-    margin: 8px;
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-}
-
-button {
-    background-color: #d63384;
-    color: #fff;
-    border: none;
-    padding: 12px 24px;
-    font-size: 1em;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #b52a6f;
-}
-
-/* Estilos para la ventana emergente (modal) */
-.modal {
-    display: none; /* Oculto por defecto */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
-    max-width: 90%; /* Ajuste para móviles */
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 1.5em;
-    cursor: pointer;
-    color: #d63384;
-}
-
-.close:hover {
-    color: #b52a6f;
-}
-
-/* Estilos para el juego de memoria */
-.game-container {
-    margin-top: 30px;
-    padding: 15px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.memory-game {
+.juego {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    max-width: 100%;
-    margin: 15px auto;
+    gap: 10px;
+    margin: 0 auto;
+    max-width: 500px;
 }
 
-.memory-card {
-    width: 100%;
-    height: 0;
-    padding-bottom: 100%; /* Mantener la proporción cuadrada */
-    background-color: #d63384;
+.carta {
+    background-color: #e91e63;
+    color: #fff;
     border-radius: 10px;
-    cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    position: relative;
-    transform-style: preserve-3d;
-}
-
-.memory-card.flipped {
-    transform: rotateY(180deg);
-}
-
-.memory-card.matched {
-    background-color: #6a1b9a;
-    cursor: default;
-}
-
-.memory-card .front,
-.memory-card .back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
+    height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    padding: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+}
+
+.carta .cara {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backface-visibility: hidden;
     border-radius: 10px;
 }
 
-.memory-card .front {
-    background-color: #d63384;
+.carta .frontal {
+    background-color: #e91e63;
     color: #fff;
-    transform: rotateY(0deg);
-    font-size: 1.5em; /* Tamaño del ícono */
 }
 
-.memory-card .back {
-    background-color: #fff;
-    color: #333;
+.carta .trasera {
+    background-color: #fce4ec;
+    color: #e91e63;
     transform: rotateY(180deg);
-    font-size: 0.9em; /* Tamaño del texto */
 }
 
-#resetButton {
-    margin-top: 15px;
+.carta.volteada {
+    transform: rotateY(180deg);
 }
 
-/* Media queries para dispositivos móviles */
+.carta.encontrada {
+    background-color: #c2185b;
+    cursor: default;
+}
+
+.mensaje {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #e91e63;
+}
+
+/* Responsive */
 @media (max-width: 600px) {
     h1 {
-        font-size: 2em;
+        font-size: 1.5rem;
     }
 
-    p {
-        font-size: 1em;
+    .intro {
+        font-size: 1rem;
     }
 
-    .flowers img {
-        width: 60px;
+    .juego {
+        grid-template-columns: repeat(3, 1fr);
     }
 
-    .memory-game {
-        grid-template-columns: repeat(3, 1fr); /* Menos columnas en móviles */
-    }
-
-    .memory-card .front {
-        font-size: 1.2em; /* Ícono más pequeño */
-    }
-
-    .memory-card .back {
-        font-size: 0.8em; /* Texto más pequeño */
+    .carta {
+        height: 80px;
+        font-size: 1rem;
     }
 }

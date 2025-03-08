@@ -1,106 +1,84 @@
-// Obtener elementos del DOM
-const modal = document.getElementById('modal');
-const button = document.getElementById('messageButton');
-const closeButton = document.querySelector('.close');
-
-// Mostrar la ventana emergente al hacer clic en el botón
-button.addEventListener('click', () => {
-    modal.style.display = 'flex';
-});
-
-// Ocultar la ventana emergente al hacer clic en la "X"
-closeButton.addEventListener('click', () => {
-    modal.style.display = 'none';
-});
-
-// Ocultar la ventana emergente al hacer clic fuera de ella
-window.addEventListener('click', (event) => {
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
-});
-
-// Juego de memoria
-const memoryGame = document.getElementById('memory-game');
-const resetButton = document.getElementById('resetButton');
-let cards = [];
-let flippedCards = [];
-let matchedCards = [];
-
-// Datos de las cartas (nombre y logro)
-const cardData = [
-    { name: "Marie Curie", achievement: "Primera mujer en ganar un Premio Nobel." },
-    { name: "Rosa Parks", achievement: "Pionera en la lucha por los derechos civiles." },
-    { name: "Frida Kahlo", achievement: "Icono del arte y el feminismo en México." },
-    { name: "Malala Yousafzai", achievement: "Activista por la educación de las niñas." },
+// Array de frases bonitas (cada frase aparece dos veces para el juego de memoria)
+const frases = [
+    "Eres fuerte, valiente y capaz de lograr todo lo que te propongas.",
+    "La belleza de una mujer no está en su apariencia, sino en su alma y su corazón.",
+    "Cada mujer es una historia única y especial. ¡Escribe la tuya con orgullo!",
+    "El mundo necesita tu voz, tu luz y tu amor. ¡No te detengas!",
+    "Eres el reflejo de la fuerza y la resiliencia. ¡Sigue adelante!",
+    "La mujer es como una estrella: brilla en la oscuridad y guía a los demás.",
+    "Tu poder no tiene límites. ¡Cree en ti misma!",
+    "Eres una obra maestra en constante evolución. ¡Celebra tu esencia!",
 ];
 
-// Duplicar y barajar las cartas
-const shuffledCards = [...cardData, ...cardData].sort(() => Math.random() - 0.5);
+// Duplicar las frases para el juego de memoria
+const cartas = [...frases, ...frases];
 
-// Crear las cartas del juego
-function createCards() {
-    shuffledCards.forEach((data, index) => {
-        const card = document.createElement('div');
-        card.classList.add('memory-card');
-        card.dataset.index = index;
-        card.innerHTML = `
-            <div class="front">📇</div>
-            <div class="back">${data.name}<br>${data.achievement}</div>
-        `;
-        card.addEventListener('click', flipCard);
-        memoryGame.appendChild(card);
-        cards.push(card);
+// Mezclar las cartas aleatoriamente
+cartas.sort(() => Math.random() - 0.5);
+
+// Variables del juego
+let cartasVolteadas = [];
+let aciertos = 0;
+const juego = document.getElementById('juego');
+const mensaje = document.getElementById('mensaje');
+
+// Función para crear las cartas
+function crearCartas() {
+    cartas.forEach((frase, index) => {
+        const carta = document.createElement('div');
+        carta.classList.add('carta');
+        carta.dataset.indice = index;
+
+        // Crear las caras de la carta
+        const caraFrontal = document.createElement('div');
+        caraFrontal.classList.add('cara', 'frontal');
+        caraFrontal.textContent = ''; // Frente vacío
+
+        const caraTrasera = document.createElement('div');
+        caraTrasera.classList.add('cara', 'trasera');
+        caraTrasera.textContent = frase; // Texto en la parte de atrás
+
+        carta.appendChild(caraFrontal);
+        carta.appendChild(caraTrasera);
+
+        carta.addEventListener('click', voltearCarta);
+        juego.appendChild(carta);
     });
 }
 
-// Voltear una carta
-function flipCard() {
-    if (flippedCards.length < 2 && !this.classList.contains('flipped')) {
-        this.classList.add('flipped');
-        flippedCards.push(this);
+// Función para voltear una carta
+function voltearCarta() {
+    if (cartasVolteadas.length < 2 && !this.classList.contains('volteada')) {
+        this.classList.add('volteada');
+        cartasVolteadas.push(this);
 
-        if (flippedCards.length === 2) {
-            checkMatch();
+        if (cartasVolteadas.length === 2) {
+            setTimeout(verificarCoincidencia, 1000);
         }
     }
 }
 
-// Verificar si las cartas coinciden
-function checkMatch() {
-    const [card1, card2] = flippedCards;
-    const name1 = card1.querySelector('.back').textContent;
-    const name2 = card2.querySelector('.back').textContent;
+// Función para verificar si las cartas coinciden
+function verificarCoincidencia() {
+    const [carta1, carta2] = cartasVolteadas;
 
-    if (name1 === name2) {
-        card1.classList.add('matched');
-        card2.classList.add('matched');
-        matchedCards.push(card1, card2);
-
-        if (matchedCards.length === cards.length) {
-            setTimeout(() => alert('¡Felicidades! Has encontrado todas las parejas.'), 500);
-        }
+    if (carta1.querySelector('.trasera').textContent === carta2.querySelector('.trasera').textContent) {
+        carta1.classList.add('encontrada');
+        carta2.classList.add('encontrada');
+        aciertos++;
+        mensaje.textContent = "¡Encontraste una coincidencia!";
     } else {
-        setTimeout(() => {
-            card1.classList.remove('flipped');
-            card2.classList.remove('flipped');
-        }, 1000);
+        carta1.classList.remove('volteada');
+        carta2.classList.remove('volteada');
+        mensaje.textContent = "Sigue intentándolo.";
     }
 
-    flippedCards = [];
+    cartasVolteadas = [];
+
+    if (aciertos === frases.length) {
+        mensaje.textContent = "¡Felicidades! Has encontrado todas las coincidencias.";
+    }
 }
 
-// Reiniciar el juego
-function resetGame() {
-    memoryGame.innerHTML = '';
-    cards = [];
-    flippedCards = [];
-    matchedCards = [];
-    createCards();
-}
-
-// Inicializar el juego
-createCards();
-
-// Reiniciar el juego al hacer clic en el botón
-resetButton.addEventListener('click', resetGame);
+// Iniciar el juego
+crearCartas();
