@@ -4,20 +4,20 @@ body {
     background-color: #f9f3f3;
     color: #333;
     text-align: center;
-    padding: 50px;
+    padding: 20px;
     margin: 0;
 }
 
 h1 {
-    font-size: 3em;
+    font-size: 2.5em;
     color: #d63384;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 p {
-    font-size: 1.5em;
+    font-size: 1.2em;
     line-height: 1.6;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .container {
@@ -31,7 +31,7 @@ p {
 
 .heart {
     color: #d63384;
-    font-size: 2em;
+    font-size: 1.5em;
     animation: beat 1s infinite;
 }
 
@@ -41,26 +41,26 @@ p {
 }
 
 .flowers {
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .flowers img {
-    width: 100px;
-    margin: 10px;
+    width: 80px;
+    margin: 8px;
     animation: float 3s ease-in-out infinite;
 }
 
 @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+    50% { transform: translateY(-15px); }
 }
 
 button {
     background-color: #d63384;
     color: #fff;
     border: none;
-    padding: 15px 30px;
-    font-size: 1.2em;
+    padding: 12px 24px;
+    font-size: 1em;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -91,6 +91,7 @@ button:hover {
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
+    max-width: 90%; /* Ajuste para móviles */
 }
 
 .close {
@@ -108,8 +109,8 @@ button:hover {
 
 /* Estilos para el juego de memoria */
 .game-container {
-    margin-top: 50px;
-    padding: 20px;
+    margin-top: 30px;
+    padding: 15px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -118,19 +119,17 @@ button:hover {
 .memory-game {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    max-width: 600px;
-    margin: 20px auto;
+    gap: 8px;
+    max-width: 100%;
+    margin: 15px auto;
 }
 
 .memory-card {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%; /* Mantener la proporción cuadrada */
     background-color: #d63384;
     border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s ease;
     position: relative;
@@ -164,14 +163,43 @@ button:hover {
     background-color: #d63384;
     color: #fff;
     transform: rotateY(0deg);
+    font-size: 1.5em; /* Tamaño del ícono */
 }
 
 .memory-card .back {
     background-color: #fff;
     color: #333;
     transform: rotateY(180deg);
+    font-size: 0.9em; /* Tamaño del texto */
 }
 
 #resetButton {
-    margin-top: 20px;
+    margin-top: 15px;
+}
+
+/* Media queries para dispositivos móviles */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2em;
+    }
+
+    p {
+        font-size: 1em;
+    }
+
+    .flowers img {
+        width: 60px;
+    }
+
+    .memory-game {
+        grid-template-columns: repeat(3, 1fr); /* Menos columnas en móviles */
+    }
+
+    .memory-card .front {
+        font-size: 1.2em; /* Ícono más pequeño */
+    }
+
+    .memory-card .back {
+        font-size: 0.8em; /* Texto más pequeño */
+    }
 }
